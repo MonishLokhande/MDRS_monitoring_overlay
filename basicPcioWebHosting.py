@@ -14,7 +14,8 @@ print("Password: " + networkInfo.password)
 wlan = network.WLAN(network.STA_IF)
 wlan.disconnect()
 wlan.active(True)
-wlan.connect(ssid, password)
+wlan.connect(networkInfo.ssid, networkInfo.password)
+print(wlan.isconnected())
 
 # htmlFile = open("txtLog.html", "r")
 # html = htmlFile.read()
@@ -36,7 +37,7 @@ if wlan.status() != 3:
         print("    {0}".format(result))
     raise RuntimeError('network connection failed')
 else:
-    print("Connected to {}".format(ssid))
+    print("Connected to {}".format(networkInfo.ssid))
     status = wlan.ifconfig()
     print('ip == ' + status[0])
 
