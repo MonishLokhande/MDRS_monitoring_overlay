@@ -5,18 +5,27 @@ This repo should contain schematics as well as docs and software used for the pr
   - While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo
 
 ## Sensor Values
-Reading from x air quality sensors (with datasheets)
- - TODO
+Reading from 5 air quality sensors (with datasheets)
+ - temp / humidity (combinewd in one sensor)
+   - http://aosong.com/userfiles/files/media/Data%20Sheet%20AHT21.pdf 
+ - CO2
+   - https://www.winsen-sensor.com/d/files/PDF/Infrared%20Gas%20Sensor/NDIR%20CO2%20SENSOR/MH-Z19%20CO2%20Ver1.0.pdf
+ - PM2.5
+   - https://wiki.keyestudio.com/Ks0196_keyestudio_PM2.5_Shield
+ - VOC
+   - https://www.winsen-sensor.com/d/files/zp07-mp503-10-grade-manual-air-quality-detection-module-1_3-terminal-forward.pdf
+ - Ozone
+   - https://cdn.sparkfun.com/assets/9/9/6/e/4/mq131-datasheet-low.pdf
 
-One of each of the above sensors in each of the 5 MDRS buildings
- - RAM
+One pi pico board connected to above 5 air quality sensors for each of the 5 MDRS buildings
+ - RAM (Not in place for crew 288)
  - Hab floor 1
  - Hab 2
  - Science Dome
  - Greenhab
    
 Measuring airlock status using reed switches and magnets
-
+ - One pi in each of the airlocks to measure these
 Measuring EVA suit charge status using GPIO voltage detection
 
 ## Website Features and GUI format
