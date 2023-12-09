@@ -1,0 +1,23 @@
+<h2>
+    Reading values from txt Log
+</h2>
+<button
+    type="button"
+    Download Log
+></button>
+
+<script>
+    function loadFile(filePath){
+        var result = null;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", filepath, false);
+        xmlhttp.send();
+        if (xmlhttp.status==200){
+            result = smlhttp.responseText;
+        }
+        return result
+    }
+    var logs = loadFile("*.txt");
+    document.write(logs)
+
+</script>
