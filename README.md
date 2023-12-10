@@ -32,6 +32,8 @@ Measuring EVA suit charge status using GPIO voltage detection
 Install Thonny [https://thonny.org]
   - Not the best code editor but flashes data to pi pico very easily
 Download pico firmware at [https://rpf.io/pico-w-firmware](https://rpf.io/pico-w-firmware)
+
+
 Running Code
   - Clone git directory
   - Connect pico to computer via micro usb
