@@ -28,12 +28,21 @@ Measuring airlock status using reed switches and magnets
  - One pi in each of the airlocks to measure these
 Measuring EVA suit charge status using GPIO voltage detection
 
+## Setup
+Install Thonny [https://thonny.org]
+  - Not the best code editor but flashes data to pi pico very easily
+Download pico firmware at [https://rpf.io/pico-w-firmware](https://rpf.io/pico-w-firmware)
+Running Code
+  - Clone git directory
+  - Connect pico to computer via micro usb
+  - Place firmware file into pico drive folder (You can literally just drag it)
+    - pico folder in your file explorer should disappear
+  - Use save as in Thonny to save necessary code onto pico
+    - main.py always runs on pico boot  
+
 ## Website Features and GUI format
-Currently planned to be hosted on raspberry pi running nginx server
-  - nginx subject to change depending on how the GUI progresses
-    
 At minimum, website shows log of sensor data that can then be downloaded remotely by mission support for backup storage
-  - Should also comprise GUI to format voerlay and make data easily readable
+  - Should also contain GUI to format overlay and make data easily readable
   - Other web pages and general layout TODO
     
 Server must be passowrd protected so that data is not publically available
