@@ -34,11 +34,12 @@ Install Thonny [https://thonny.org]
 Download pico firmware at [https://rpf.io/pico-w-firmware](https://rpf.io/pico-w-firmware)
 
 
-Running Code
+Running Code (Instructions mainly from https://projects.raspberrypi.org/en/projects/get-started-pico-w/1)
   - Clone git directory
   - Connect pico to computer via micro usb
   - Place firmware file into pico drive folder (You can literally just drag it)
     - pico folder in your file explorer should disappear
+  - Bottom right corner of Thonny shows what editor is being used, you should be able to select  ‘MicroPython (Raspberry Pi Pico)’ 
   - Use save as in Thonny to save necessary code onto pico
     - main.py always runs on pico boot
 
