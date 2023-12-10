@@ -42,15 +42,14 @@ Running Code
   - Use save as in Thonny to save necessary code onto pico
     - main.py always runs on pico boot
 
-  Accessery files
-    - When you add your code to the pico make sure to also add
+Accessery files
+  - When you add your code to the pico make sure to also add
       - networkInfo.py
       - txtLog.html
-    - txtLog.html is the website that will be displayed on the server and is in the repo
-    - networkInfo.py is a 2 line file ignored by git you'll create yourself
+  - txtLog.html is the website that will be displayed on the server and is in the repo
+  - networkInfo.py is a 2 line file ignored by git you'll create yourself, it's what allows the pico to connect to the local wifi
       ssid = "wifi name"
-      password = "wifi password#"
-    - This allows the pico to connect to the local wifi
+      password = "wifi password"
 
 #### Port Forwarding
 TODO
