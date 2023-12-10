@@ -40,7 +40,22 @@ Running Code
   - Place firmware file into pico drive folder (You can literally just drag it)
     - pico folder in your file explorer should disappear
   - Use save as in Thonny to save necessary code onto pico
-    - main.py always runs on pico boot  
+    - main.py always runs on pico boot
+
+  Accessery files
+    - When you add your code to the pico make sure to also add
+      - networkInfo.py
+      - txtLog.html
+    - txtLog.html is the website that will be displayed on the server and is in the repo
+    - networkInfo.py is a 2 line file ignored by git you'll create yourself
+      ssid = "wifi name"
+      password = "wifi password#"
+    - This allows the pico to connect to the local wifi
+
+#### Port Forwarding
+TODO
+
+Necessary step to making remotely available, will add instructions here at later date
 
 ## Website Features and GUI format
 At minimum, website shows log of sensor data that can then be downloaded remotely by mission support for backup storage
