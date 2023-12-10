@@ -9,7 +9,7 @@ Reading from 5 air quality sensors (with datasheets)
  - temp / humidity (combinewd in one sensor)
    - http://aosong.com/userfiles/files/media/Data%20Sheet%20AHT21.pdf 
  - CO2
-   - https://www.winsen-sensor.com/d/files/infrared-gas-sensor/mh-z19c-pins-type-co2-manual-ver1_0.pdf
+   - https://cdn-reichelt.de/documents/datenblatt/C150/MH-Z19C-PC_DATENBLATT.pdf
  - PM2.5
    - https://wiki.keyestudio.com/Ks0196_keyestudio_PM2.5_Shield
  - VOC
