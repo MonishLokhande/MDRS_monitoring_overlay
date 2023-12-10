@@ -26,11 +26,14 @@ One pi pico board connected to above 5 air quality sensors for each of the 5 MDR
    
 Measuring airlock status using reed switches and magnets
  - One pi in each of the airlocks to measure these
+
 Measuring EVA suit charge status using GPIO voltage detection
 
 ## Setup
 Install Thonny [https://thonny.org]
   - Not the best code editor but flashes data to pi pico very easily
+
+
 Download pico firmware at [https://rpf.io/pico-w-firmware](https://rpf.io/pico-w-firmware)
 
 
@@ -50,6 +53,7 @@ Accessery files
   - txtLog.html is the website that will be displayed on the server and is in the repo
   - networkInfo.py is a 2 line file ignored by git you'll create yourself, it's what allows the pico to connect to the local wifi
       ssid = "wifi name"
+    
       password = "wifi password"
 
 #### Port Forwarding
