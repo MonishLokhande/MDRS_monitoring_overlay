@@ -48,13 +48,15 @@ Running Code (Instructions mainly from https://projects.raspberrypi.org/en/proje
 
 Accessery files
   - When you add your code to the pico make sure to also add
-      - networkInfo.py
+      - securityInfo.py
       - txtLog.html
   - txtLog.html is the website that will be displayed on the server and is in the repo
-  - networkInfo.py is a 2 line file ignored by git you'll create yourself, it's what allows the pico to connect to the local wifi
+  - securityInfo.py is a 4 line file ignored by git you'll create yourself, it's what allows the pico to connect to the local wifi and provides security to the website we'll be hosting. The file should only contain the following three lines
       ssid = "wifi name"
     
-      password = "wifi password"
+      wifi_password = "wifi password"
+
+      website_password = "website_password"
 
 #### Port Forwarding
 TODO

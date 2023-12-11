@@ -2,7 +2,7 @@ import network
 import socket
 import time
 from machine import Pin as pin
-import networkInfo
+import securityInfo
 import uasyncio as asyncio
 
 def connect_to_network():
@@ -13,11 +13,11 @@ def connect_to_network():
     # wlan.config(pm = 0xa11140) # Disable power-save mode
     
     wlan.disconnect()
-    wlan.connect(networkInfo.ssid, networkInfo.password)
+    wlan.connect(securityInfo.ssid, securityInfo.wifi_password)
 
     print("Finding Connection, timeout in 15 seconds")
-    print("Network ssid: " + networkInfo.ssid)
-    print("Password: " + networkInfo.password)
+    print("Network ssid: " + securityInfo.ssid)
+    print("Password: " + securityInfo.wifi_password)
     print("waiting for connection...")
     max_wait = 15
     while max_wait > 0:
@@ -34,7 +34,7 @@ def connect_to_network():
             print("    {0}".format(result))
         raise RuntimeError('network connection failed')
     else:
-        print("Connected to {}".format(networkInfo.ssid))
+        print("Connected to {}".format(securityInfo.ssid))
         status = wlan.ifconfig()
         print('ip == ' + status[0])
     
