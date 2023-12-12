@@ -1,5 +1,4 @@
-# Doesn't run 
-# TODO set up for pi pico
+# Doesn't run on pico, just for example
 
 GPIO.setup(26, GPIO.OUT)
 GPIO.setup(13, GPIO.IN)
