@@ -14,11 +14,10 @@ def connect_to_network():
     wlan.disconnect()
     wlan.connect(securityInfo.ssid, securityInfo.wifi_password)
 
-    print("Finding Connection, timeout in 15 seconds")
-    print("Network ssid: " + securityInfo.ssid)
-    print("Password: " + securityInfo.wifi_password)
+    print("Finding Connection, timeout in 30 seconds")
+    print("Connecting with Network ssid: " + securityInfo.ssid + " and Password: " + securityInfo.wifi_password)
     print("waiting for connection...")
-    max_wait = 15
+    max_wait = 30
     while max_wait > 0:
         if wlan.status() == 3:
             break
@@ -53,7 +52,38 @@ async def serve_client(reader, writer):
     # We are not interested in HTTP request headers, skip them
     while await reader.readline() != b"\r\n":
         pass
-    response = load_html()
+    # response = load_html()
+    response = """ <h2>
+    Reading values from txt Log
+</h2>
+<p>
+    <script>
+        document.write(loadFile(sensor_data.txt))
+    </script>
+</p>
+<button
+    type="button"
+    onclick = >
+    Display Logs
+</button>
+
+<script>
+    function loadFile(filePath){
+        var result = null;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", filepath, false);
+        xmlhttp.send();
+        if (xmlhttp.status==200){
+            result = smlhttp.responseText;
+        }
+        else{
+            result = "Failed to retrieve data";
+        }
+        return result
+    }
+</script> """
+
+
     writer.write('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
     writer.write(response)
     
@@ -64,6 +94,15 @@ async def serve_client(reader, writer):
 async def main():
     connect_to_network()
     asyncio.create_task(asyncio.start_server(serve_client, "0.0.0.0", 80))
+
+
+    # create file and read initial sensor values
+    output_file = open("sensor_data.txt", 'a')
+    curr_time = time.localtime()
+    timestamp = str(str(curr_time[1])+', '+ str(curr_time[2]) +', '+ str(curr_time[0]) +'-' + str(curr_time[3]) +":"+ str(curr_time[4]))
+    output_file.write("Tested at: {}\n".format(timestamp))
+    output_file.close()
+    print("Output file made and timestamped")
     
     while True:
         await asyncio.sleep(0.25)

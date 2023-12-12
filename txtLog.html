@@ -1,9 +1,15 @@
 <h2>
     Reading values from txt Log
 </h2>
+<p>
+    <script>
+        document.write(loadFile(sensor_data.txt))
+    </script>
+</p>
 <button
-    type="button">
-    Download Log (Doesn't actually download yet)
+    type="button"
+    onclick = >
+    Display Logs
 </button>
 
 <script>
@@ -15,9 +21,10 @@
         if (xmlhttp.status==200){
             result = smlhttp.responseText;
         }
+        else{
+            result = "Failed to retrieve data";
+        }
         return result
     }
-    // var logs = loadFile("*.txt");
-    // document.write(logs)
-
 </script>
+

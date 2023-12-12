@@ -11,12 +11,12 @@ time.sleep(0.5) # allow temp sensor time to reach idle state
 curr_time = time.localtime()
 file_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))
 output_file = open("{}_pwm_output.txt".format(file_stamp), 'w')
-print("Outputting results {}_pwm_output.txt".format()file_stamp)
-print("Timestamps are Month, Day, Year-Time")
+print("Saving results in {}_pwm_output.txt".format(file_stamp))
+print("Timestamps are Month_Day_Year_HH:MM")
 
 try:
     while True:
-        time.sleep(60) # every minute
+        time.sleep(1) # every 10 seconds
         # getting current time, converting to strings, then writing to file
         curr_time = time.localtime()
         timestamp = str(str(curr_time[1])+', '+ str(curr_time[2]) +', '+ str(curr_time[0]) +'-' + str(curr_time[3]) +":"+ str(curr_time[4]))
@@ -32,7 +32,9 @@ try:
                 time.sleep(0.0009) # just less than every ms to account for timing offsets
                 cycle_list[check_idx] = pwm_reading.value()
             # formula taken from sensor docs
-            output_file.write(str(2000 * cycle_list.count(1)/1000) + '\n')
+            CO2_reading = str(2000 * cycle_list.count(1)/1000) + '\n'
+            output_file.write(CO2_reading)
+            print(CO2_reading)
 except KeyboardInterrupt:
     CO2_power.value(0)
     output_file.close()
