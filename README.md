@@ -6,7 +6,7 @@ This repo should contain schematics as well as docs and software used for the pr
 
 ## Sensor Values
 Reading from 5 air quality sensors (with datasheets)
- - temp / humidity (combinewd in one sensor)
+ - temp / humidity (combined in one sensor)
    - http://aosong.com/userfiles/files/media/Data%20Sheet%20AHT21.pdf 
  - CO2
    - https://cdn-reichelt.de/documents/datenblatt/C150/MH-Z19C-PC_DATENBLATT.pdf
