@@ -1,13 +1,14 @@
-from machine import Pin as pin
-import machine
-import time
+
 
 def setup_pins():
+    from machine import Pin as pin
+    from time import sleep
+    
     CO2_power = pin(15, pin.OUT)
     CO2_power.value(1)
 
     pwm_reading = pin(12, pin.IN)
-    time.sleep(0.5) # allow temp sensor time to reach idle state
+    sleep(0.5) # allow temp sensor time to reach idle state
     
     return CO2_power, pwm_reading
 
@@ -30,6 +31,10 @@ def record_data(sensor_pin, file_name = "CO2_data.txt"):
         time.sleep(0.5)
 
 if __name__ == "__main__":
+    
+    from machine import Pin as pin
+    import machine
+    import time
     sensor_reading_pin, CO2_power_pin = setup_pins()
     curr_time = time.localtime()
     time_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))

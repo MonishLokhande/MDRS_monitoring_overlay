@@ -3,6 +3,7 @@ import machine
 import time
 
 def setup_pins():
+    from machine import Pin as pin
     VOC_power = pin(21, pin.OUT)
     VOC_power.value(1)
 
