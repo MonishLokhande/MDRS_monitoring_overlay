@@ -22,7 +22,8 @@ if __name__ == "__main__":
     # TODO sleep for variable time
     
     # TODO format as function with if main thing so we can call seperately later
-    
+
+    # TODO save sensor values on manual button press
     
     try:
         while True:
