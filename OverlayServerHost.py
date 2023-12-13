@@ -26,9 +26,6 @@ def connect_to_network():
 
     if wlan.status() != 3:
         print("wlan.status() == {0}".format(wlan.status()))
-        print("Running wlan.scan() to get list of all available networks")
-        for result in wlan.scan():
-            print("    {0}".format(result))
         raise RuntimeError('network connection failed')
     else:
         print("Connected to {}".format(securityInfo.ssid))
