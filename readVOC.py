@@ -15,6 +15,7 @@ def record_data(input_pin, file_name = 'VOC_data.txt'):
     # low for 100ms means pollution class 0
     # low for 90 means pollution class 1
     # low for 0 means pollution class 10
+    from time import sleep
     
     VOC_value_list = [0] * 10
     idx = 0
@@ -33,13 +34,13 @@ def record_data(input_pin, file_name = 'VOC_data.txt'):
             VOC_value_list[idx] = input_pin.value()
             pollutionClass = VOC_value_list.count(1)
             idx += 1
-            time.sleep(0.01) # 10 ms
+            sleep(0.01) # 10 ms
         
         # saving value
         with open(file_name, 'a') as output_file:
             output_file.write(str(pollutionClass)+'\n')
         print(pollutionClass)
-        time.sleep(0.5)
+        sleep(0.5)
 
 
 if __name__ == "__main__":

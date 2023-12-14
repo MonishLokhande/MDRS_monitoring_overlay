@@ -4,6 +4,8 @@ import time
 
 def record_data(file_name = "temp_data.txt"):
 
+    from time import sleep
+
     adc = machine.ADC(4)
     curr_time = time.localtime()
     time_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))
@@ -19,7 +21,7 @@ def record_data(file_name = "temp_data.txt"):
         with open(file_name, 'a') as output_file:
             output_file.write(str(temp_f)+'\n')
         print(temp_f)
-        time.sleep(0.5)
+        sleep(0.5)
 
 if __name__ == "__main__":
     try:
