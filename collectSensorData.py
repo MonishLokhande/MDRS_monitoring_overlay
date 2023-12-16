@@ -9,12 +9,11 @@ if __name__ == "__main__":
         import readPM2_5
         import readVOC
     except:
-        raise ValueError("Error importing files (make sure everything being imported is flashed onto the pi)")
+        raise ValueError("Error importing files\nMake sure everything being imported is copied onto the pi and named exactly the same as specified in this file")
     
     CO2_power_pin, CO2_reading_pin = readCO2.setup_pins()
     VOC_power_pin, VOC_reading_pin = readVOC.setup_pins()
     print("Imports and pin setup successful")
-    
     
     # TODO format as function with if main thing so we can call seperately later
 

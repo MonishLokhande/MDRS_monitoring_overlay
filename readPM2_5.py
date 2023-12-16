@@ -4,7 +4,7 @@ import time
 
 def record_data(file_name = 'dust_data.txt'):
     PM = machine.ADC(pin(26))
-    from time import sleep
+    import time
     
     # saving timestamp to file
     curr_time = time.localtime()
@@ -20,7 +20,7 @@ def record_data(file_name = 'dust_data.txt'):
         with open(file_name, 'a') as output_file:
             output_file.write(str(dustDensity)+'\n')
         print(dustDensity)
-        sleep(0.5)
+        time.sleep(0.5)
     
 
 if __name__ == "__main__":

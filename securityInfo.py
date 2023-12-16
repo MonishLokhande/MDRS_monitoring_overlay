@@ -1,2 +1,2 @@
-ssid = "NathanMobileHotSpot"
-wifi_password = "sfxe616#"
+ssid = "Kevin'sWifi"
+wifi_password = "deepraven636#"

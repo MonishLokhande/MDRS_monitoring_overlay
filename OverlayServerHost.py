@@ -3,7 +3,6 @@ import socket
 import time
 from machine import Pin as pin
 import securityInfo
-import uasyncio as asyncio
 
 def connect_to_network():
     wlan = network.WLAN(network.STA_IF)
@@ -31,7 +30,8 @@ def connect_to_network():
         print("Connected to {}".format(securityInfo.ssid))
         status = wlan.ifconfig()
         print('ip == ' + status[0])
-    
+
+
 
 def load_html(path = "txtLog.html"):
     htmlFile = open(path, "r")
@@ -39,73 +39,49 @@ def load_html(path = "txtLog.html"):
     htmlFile.close()
     return html
 
-async def serve_client(reader, writer):
-    print("Client connected")
+def open_socket():
+    addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
 
-    # no need to get reader input, oly displaying static page for now
+    s = socket.socket()
+    s.bind(addr)
+    s.listen(1)
 
-    request_line = await reader.readline()
-    print("Request:", request_line)
-    # We are not interested in HTTP request headers, skip them
-    while await reader.readline() != b"\r\n":
-        pass
-    # response = load_html()
-    response = """ <h2>
-    Reading values from txt Log
-</h2>
-<p>
-    <script>
-        document.write(loadFile(sensor_data.txt))
-    </script>
-</p>
-<button
-    type="button"
-    onclick = >
-    Display Logs
-</button>
+    print('listening on', addr)
+    return s
 
-<script>
-    function loadFile(filePath){
-        var result = null;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", filepath, false);
-        xmlhttp.send();
-        if (xmlhttp.status==200){
-            result = smlhttp.responseText;
-        }
-        else{
-            result = "Failed to retrieve data";
-        }
-        return result
-    }
-</script> """
+def read_txt(path):
+    with open(path, 'r') as input_file:
+        data = input_file.read()
+    return data
 
-
-    writer.write('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
-    writer.write(response)
+# Listen for connections
+connect_to_network()
+load_html()
+s = open_socket()
+while True:
+    try:
+        cl, addr = s.accept()
+        print('client connected from', addr)
+        cl_file = cl.makefile('rwb', 0)
+        while True:
+            line = cl_file.readline()
+            if not line or line == b'\r\n':
+                break
+        html = load_html()
+        response = html
+        sensor_data = read_txt('temp_data.txt')
+        response = response.replace('txt_data', sensor_data)
+        cl.send('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
+        cl.send(response)
+        cl.close()
+    except OSError as e:
+        cl.close()
+        print('connection closed')
+    except KeyboardInterrupt:
+        print('Exited via KeyboardInterrupt')
+        break
+        
     
-    await writer.drain()
-    await writer.wait_closed()
-    print("Client disconnected")
-
-async def main():
-    connect_to_network()
-    asyncio.create_task(asyncio.start_server(serve_client, "0.0.0.0", 80))
 
 
-    # create file and read initial sensor values
-    output_file = open("sensor_data.txt", 'a')
-    curr_time = time.localtime()
-    timestamp = str(str(curr_time[1])+', '+ str(curr_time[2]) +', '+ str(curr_time[0]) +'-' + str(curr_time[3]) +":"+ str(curr_time[4]))
-    output_file.write("Tested at: {}\n".format(timestamp))
-    output_file.close()
-    print("Output file made and timestamped")
-    
-    while True:
-        await asyncio.sleep(0.25)
-
-try: 
-    asyncio.run(main())
-finally:
-    asyncio.new_event_loop()
 

@@ -14,7 +14,7 @@ def setup_pins():
 
 def record_data(sensor_pin, file_name = "CO2_data.txt"):
 
-    from time import sleep
+    import time
 
 
     curr_time = time.localtime()
@@ -24,7 +24,7 @@ def record_data(sensor_pin, file_name = "CO2_data.txt"):
     for log in range(10):
         cycle_list = [0] * 1000
         for check_idx in range(1000):
-            sleep(0.0009) # just less than every ms to account for timing offsets
+            time.sleep(0.0009) # just less than every ms to account for timing offsets
             cycle_list[check_idx] = sensor_pin.value()
             
         # formula taken from sensor docs
@@ -32,7 +32,7 @@ def record_data(sensor_pin, file_name = "CO2_data.txt"):
         with open(file_name, 'a') as output_file:
             output_file.write(CO2_reading)
         print(CO2_reading)
-        sleep(0.5)
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     
