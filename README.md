@@ -89,4 +89,5 @@ At minimum, website shows log of sensor data that can then be downloaded remotel
   - Other web pages and general layout TODO
     
 Server must be passoword protected so that data is not publically available
-  - TODO
+ -(https://www.maxlaumeister.com/pagecrypt/)https://www.maxlaumeister.com/pagecrypt/
+ - Done using this page
