@@ -5,6 +5,11 @@ from machine import Pin as pin
 import securityInfo
 import uasyncio as asyncio
 
+def read_txt(path):
+    with open(path, 'r') as input_file:
+        data = input_file.read()
+    return data
+
 def connect_to_network():
     wlan = network.WLAN(network.STA_IF)
     wlan.disconnect()
@@ -14,11 +19,11 @@ def connect_to_network():
     wlan.disconnect()
     wlan.connect(securityInfo.ssid, securityInfo.wifi_password)
 
-    print("Finding Connection, timeout in 15 seconds")
+    print("Finding Connection, timeout in 30 seconds")
     print("Network ssid: " + securityInfo.ssid)
     print("Password: " + securityInfo.wifi_password)
     print("waiting for connection...")
-    max_wait = 15
+    max_wait = 30
     while max_wait > 0:
         if wlan.status() == 3:
             break
@@ -27,9 +32,6 @@ def connect_to_network():
 
     if wlan.status() != 3:
         print("wlan.status() == {0}".format(wlan.status()))
-        print("Running wlan.scan() to get list of all available networks")
-        for result in wlan.scan():
-            print("    {0}".format(result))
         raise RuntimeError('network connection failed')
     else:
         print("Connected to {}".format(securityInfo.ssid))
@@ -49,11 +51,17 @@ async def serve_client(reader, writer):
     # no need to get reader input, oly displaying static page for now
 
     request_line = await reader.readline()
-    print("Request:", request_line)
+    correct_password = str(request_line).find(securityInfo.website_password)
     # We are not interested in HTTP request headers, skip them
     while await reader.readline() != b"\r\n":
         pass
-    response = load_html()
+    if correct_password >= 0:
+        response = load_html()
+        sensor_data = read_txt('temp_data.txt')
+        response = response.replace('txt_data', sensor_data)
+    else:
+        response = response = load_html('passwordRequest.html')
+
     writer.write('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
     writer.write(response)
     
@@ -64,9 +72,11 @@ async def serve_client(reader, writer):
 async def main():
     connect_to_network()
     asyncio.create_task(asyncio.start_server(serve_client, "0.0.0.0", 80))
-    
-    while True:
-        await asyncio.sleep(0.25)
+    try:
+        while True:
+            await asyncio.sleep(0.25)
+    except KeyboardInterrupt:
+        print("Successfully exited via keyboard")
 
 try: 
     asyncio.run(main())
