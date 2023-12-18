@@ -1,3 +1,18 @@
+import machine
+import time
+try:
+    import readCO2
+    import readOnboardTemp
+    import readPM2_5
+    import readVOC
+except:
+    raise ValueError("Error importing files\nMake sure everything being imported is copied onto the pi and named exactly the same as specified in this file")
+    
+    
+    
+CO2_power_pin, CO2_reading_pin = readCO2.setup_pins()
+VOC_power_pin, VOC_reading_pin = readVOC.setup_pins()
+
 def file_name_setup(file_name = 'sensor_log.txt'):
     return file_name
 
@@ -25,27 +40,11 @@ def manual_data_read(pin):
         print('Reading Data from manual interrupt...')
         record_values(file_name)
         debounce_time = time.ticks_ms()
-        print("sved manually collected data")
+        print("saved manually collected data")
 
-if __name__ == "__main__":
-    import machine
-    import time
-    try:
-        import readCO2
-        import readOnboardTemp
-        import readPM2_5
-        import readVOC
-    except:
-        raise ValueError("Error importing files\nMake sure everything being imported is copied onto the pi and named exactly the same as specified in this file")
+def data_collection_loop():
     
     print("Imports and pin setup successful")
-    
-    CO2_power_pin, CO2_reading_pin = readCO2.setup_pins()
-    VOC_power_pin, VOC_reading_pin = readVOC.setup_pins()
-
-    # TODO save sensor values on manual button press, interrupt tutorial below
-    # https://electrocredible.com/raspberry-pi-pico-external-interrupts-button-micropython/
-
 
     button_reading = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
     button_reading.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
@@ -61,3 +60,7 @@ if __name__ == "__main__":
         CO2_power_pin.value(0)
         VOC_power_pin.value(0)
         print("Exited Successfully")
+
+if __name__ == "__main__":
+    
+    data_collection_loop()

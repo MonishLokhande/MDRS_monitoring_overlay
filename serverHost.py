@@ -59,7 +59,7 @@ async def serve_client(reader, writer):
     while await reader.readline() != b"\r\n":
         pass
     if correct_password >= 0:
-        response = load_html('txtLog.html', [['txt_data', 'temp_data.txt']])
+        response = load_html('txtLog.html', [['txt_data', 'sensor_log.txt']])
     else:
         response = response = load_html('passwordRequest.html')
 
@@ -73,9 +73,28 @@ async def serve_client(reader, writer):
 async def main():
     connect_to_network()
     asyncio.create_task(asyncio.start_server(serve_client, "0.0.0.0", 80))
+
+    is_logging_data = True
     try:
-        while True:
-            await asyncio.sleep(0.25)
+        if is_logging_data:
+            try:
+                import collectSensorData
+            except:
+                raise ValueError("Sensor reading python file not found on pi, make sure it's copied over")
+    
+            print("Imports and pin setup successful")
+            file_name = collectSensorData.file_name_setup()
+            last_log_time = -1000*60*60 # last log was 1 hour ago in ms
+            while True:
+                if (time.ticks_ms() - last_log_time) > (1000*60*60): # log values if last log was 1 hour ago
+                    collectSensorData.record_values(file_name)
+                    last_log_time = time.ticks_ms()
+                await asyncio.sleep(0.25)
+            
+        else:
+            while True:
+                await asyncio.sleep(0.25)
+
     except KeyboardInterrupt:
         print("Successfully exited via keyboard")
 
