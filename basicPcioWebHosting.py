@@ -39,10 +39,13 @@ def connect_to_network():
         print('ip == ' + status[0])
     
 
-def load_html(path = "txtLog.html"):
+def load_html(path = "txtLog.html", args = []):
     htmlFile = open(path, "r")
     html = htmlFile.read()
     htmlFile.close()
+    for file in args:
+        file_data = read_txt(file[1])
+        html = html.replace(file[0], file_data)
     return html
 
 async def serve_client(reader, writer):
@@ -56,9 +59,7 @@ async def serve_client(reader, writer):
     while await reader.readline() != b"\r\n":
         pass
     if correct_password >= 0:
-        response = load_html()
-        sensor_data = read_txt('temp_data.txt')
-        response = response.replace('txt_data', sensor_data)
+        response = load_html('txtLog.html', [['txt_data', 'temp_data.txt']])
     else:
         response = response = load_html('passwordRequest.html')
 
