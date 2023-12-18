@@ -88,6 +88,6 @@ At minimum, website shows log of sensor data that can then be downloaded remotel
   - Should also contain GUI to format overlay and make data easily readable
   - Other web pages and general layout TODO
     
-Server must be passoword protected so that data is not publically available
- -(https://www.maxlaumeister.com/pagecrypt/)https://www.maxlaumeister.com/pagecrypt/
- - Done using this page
+Server is passoword protected so that data is not publically available
+- Going to the link shows a password request page
+- The monitoring page is accessible only by using the website_password in securityInfo.py
