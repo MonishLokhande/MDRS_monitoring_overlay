@@ -20,19 +20,27 @@ def record_data(sensor_pin, file_name = "CO2_data.txt"):
     curr_time = time.localtime()
     time_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))
     with open(file_name, 'a') as output_file:
-        output_file.write("10 CO2 values saved at {}\n".format(time_stamp))
-    for log in range(10):
-        cycle_list = [0] * 1000
-        for check_idx in range(1000):
-            time.sleep(0.0009) # just less than every ms to account for timing offsets
-            cycle_list[check_idx] = sensor_pin.value()
+        output_file.write("CO2 values saved at {}\n".format(time_stamp))
+    cycle_list = [0] * 1000
+    for check_idx in range(1000):
+        time.sleep(0.0009) # just less than every ms to account for timing offsets
+        cycle_list[check_idx] = sensor_pin.value()
+    CO2_reading = str(2000 * cycle_list.count(1)/1000)
+    with open(file_name, 'a') as output_file:
+        output_file.write(CO2_reading)
+    print(CO2_reading)
+    # for log in range(10):
+    #     cycle_list = [0] * 1000
+    #     for check_idx in range(1000):
+    #         time.sleep(0.0009) # just less than every ms to account for timing offsets
+    #         cycle_list[check_idx] = sensor_pin.value()
             
-        # formula taken from sensor docs
-        CO2_reading = str(2000 * cycle_list.count(1)/1000) + '\n'
-        with open(file_name, 'a') as output_file:
-            output_file.write(CO2_reading)
-        print(CO2_reading)
-        time.sleep(0.5)
+    #     # formula taken from sensor docs
+    #     CO2_reading = str(2000 * cycle_list.count(1)/1000)
+    #     with open(file_name, 'a') as output_file:
+    #         output_file.write(CO2_reading)
+    #     print(CO2_reading)
+    #     time.sleep(0.5)
 
 if __name__ == "__main__":
     

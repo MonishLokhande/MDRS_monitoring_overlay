@@ -13,6 +13,19 @@ def record_values(file_name):
     
     print("Recording dust values")
     readPM2_5.record_data(file_name)
+    
+debounce_time = 0
+
+file_name = file_name_setup()
+
+def manual_data_read(pin):
+    global debounce_time
+    if (time.ticks_ms() - debounce_time > 500):
+        global file_name
+        print('Reading Data from manual interrupt...')
+        record_values(file_name)
+        debounce_time = time.ticks_ms()
+        print("sved manually collected data")
 
 if __name__ == "__main__":
     import machine
@@ -32,10 +45,12 @@ if __name__ == "__main__":
 
     # TODO save sensor values on manual button press, interrupt tutorial below
     # https://electrocredible.com/raspberry-pi-pico-external-interrupts-button-micropython/
-    
-    
-    file_name = file_name_setup()
 
+
+    button_reading = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
+    button_reading.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
+    
+    # global file_name
     try:
         while True:
             record_values(file_name)
