@@ -65,8 +65,9 @@ CollectSensorData.py is a function that calls the read"X".py values in the repo 
 
 A few notes
 - There isn't much memory on the pico boards, I'll need to do some testing to see how long this setup works before we run into memory issues
-- This doesn't use the pico's low power mode (yet) so power consumption will be higher, perhaps lasting only a few days of constant use instead of the two weeks expected with better power management 
+- This doesn't use the pico's low power mode (yet) so power consumption will be higher
 
+  
 Setup instructions
 1. To set it up simply save the file onto the pico board
 2. Rename it to main.py so that it runs on startup.
@@ -77,6 +78,8 @@ Setup instructions
     - readVOC
 4. To collect sensor data connect back to the pi via micro usb and download the sensor lof txt files onto your machine
 
+
+This file is also called by serverHost.py if a value in the code is set to true. This will allow the pi that is running our server to also log air quality values and display them on the monitoring website.
 
 #### Port Forwarding
 TODO
