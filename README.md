@@ -65,8 +65,9 @@ CollectSensorData.py is a function that calls the read"X".py values in the repo 
 
 A few notes
 - There isn't much memory on the pico boards, I'll need to do some testing to see how long this setup works before we run into memory issues
-- This doesn't use the pico's low power mode (yet) so power consumption will be higher, perhaps lasting only a few days of constant use instead of the two weeks expected with better power management 
+- This doesn't use the pico's low power mode (yet) so power consumption will be higher
 
+  
 Setup instructions
 1. To set it up simply save the file onto the pico board
 2. Rename it to main.py so that it runs on startup.
@@ -78,10 +79,26 @@ Setup instructions
 4. To collect sensor data connect back to the pi via micro usb and download the sensor lof txt files onto your machine
 
 
-#### Port Forwarding
-TODO
+This file is also called by serverHost.py if a value in the code is set to true. This will allow the pi that is running our server to also log air quality values and display them on the monitoring website.
 
-Necessary step to making remotely available, will add instructions here at later date
+#### Port Forwarding
+
+Port forwarding is what allows our pico based server to be accessed form devices outside its own network. Setting it up is a simple process with router settings.
+
+****Caution**** 
+
+This should be reviewed with MDRS staff before being implimented as it involves configuring router settings, rerouting traffic, and security.
+
+1. Backup router settings, not really necessary, but recommended in case the router needs to be reset for any reason.
+2. Get the router ip address and go to that address on any browser to access router settings.
+3. Layouts differ by manufacturer from here. Somewhere, likely somewhere advanced settings, there should be an option to enable port forwarding.
+4. Here just add your pico's ip address to the internal IP address and set the port number to 80
+     - The port 80 part may not be the only way to do this, it's just what I've used to test it
+
+This should allow people outside your LAN to access the server by connecting to the router's IP address, which then redirects them to the pico's IP address.
+
+****Note****
+This may be due to using that port number, or maybe it's intended, but when testing I cannot access router settings using the ip address used for the forwarding. (Because it immediately redirects to the pico website) In my setup I can use another ip to access the settings but this may not be possible on all networks and is why I'd recommend making a backup of the router settings, in case a reset is needed to disable the forwarding.
 
 ## Website Features and GUI format
 At minimum, website shows log of sensor data that can then be downloaded remotely by mission support for backup storage
