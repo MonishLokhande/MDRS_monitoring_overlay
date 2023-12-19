@@ -83,7 +83,7 @@ async def main():
                 raise ValueError("Sensor reading python file not found on pi, make sure it's copied over")
     
             print("Imports and pin setup successful")
-            file_name = collectSensorData.file_name_setup()
+            file_names = collectSensorData.file_names_setup()
             
             button_reading_pin = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
             collectSensorData.button_interrupt_setup(button_reading_pin)
@@ -91,7 +91,7 @@ async def main():
             last_log_time = -1000*60*60 # last log was 1 hour ago in ms
             while True:
                 if (time.ticks_ms() - last_log_time) > (1000*60*60): # log values if last log was 1 hour ago
-                    collectSensorData.record_values(file_name)
+                    collectSensorData.record_values(file_names)
                     last_log_time = time.ticks_ms()
                 await asyncio.sleep(0.25)
             

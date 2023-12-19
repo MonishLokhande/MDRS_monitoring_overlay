@@ -2,7 +2,7 @@ from machine import Pin as pin
 import machine
 import time
 
-def record_data(file_name = 'dust_data.txt'):
+def record_data(file_name = 'dust_data.csv'):
     PM = machine.ADC(pin(26))
     import time
     
@@ -10,7 +10,7 @@ def record_data(file_name = 'dust_data.txt'):
     curr_time = time.localtime()
     time_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))
     with open(file_name, 'a') as output_file:
-        output_file.write("dust values saved at {}\n".format(time_stamp))
+        output_file.write(time_stamp+', ')
     
     # for x in range(10):
     PM_value = PM.read_u16()
@@ -18,7 +18,7 @@ def record_data(file_name = 'dust_data.txt'):
     dustDensity = 0.17 * PM_value - 0.1
     # saving value
     with open(file_name, 'a') as output_file:
-        output_file.write(str(dustDensity)+'\n')
+        output_file.write(str(dustDensity)+',\n')
     print(dustDensity)
         # time.sleep(0.5)
     

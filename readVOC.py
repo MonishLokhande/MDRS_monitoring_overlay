@@ -10,7 +10,7 @@ def setup_pins():
     VOC_outputA = pin(20, pin.IN)
     return VOC_power, VOC_outputA
 
-def record_data(input_pin, file_name = 'VOC_data.txt'):
+def record_data(input_pin, file_name = 'VOC_data.csv'):
     # sensor output runs in 100ms  / 0.1 second cycle
     # low for 100ms means pollution class 0
     # low for 90 means pollution class 1
@@ -24,7 +24,7 @@ def record_data(input_pin, file_name = 'VOC_data.txt'):
     curr_time = time.localtime()
     time_stamp = str(str(curr_time[1])+'_'+ str(curr_time[2]) +'_'+ str(curr_time[0]) +'_' + str(curr_time[3]) +":"+ str(curr_time[4]))
     with open(file_name, 'a') as output_file:
-        output_file.write("VOC values saved at {}\n".format(time_stamp))
+        output_file.write(time_stamp+', ')
     
 
     # for x in range(10):
@@ -38,7 +38,7 @@ def record_data(input_pin, file_name = 'VOC_data.txt'):
     
     # saving value
     with open(file_name, 'a') as output_file:
-        output_file.write(str(pollutionClass)+'\n')
+        output_file.write(str(pollutionClass)+',\n')
     print(pollutionClass)
         # time.sleep(0.5)
 
