@@ -84,6 +84,10 @@ async def main():
     
             print("Imports and pin setup successful")
             file_name = collectSensorData.file_name_setup()
+            
+            button_reading_pin = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
+            collectSensorData.button_interrupt_setup(button_reading_pin)
+
             last_log_time = -1000*60*60 # last log was 1 hour ago in ms
             while True:
                 if (time.ticks_ms() - last_log_time) > (1000*60*60): # log values if last log was 1 hour ago

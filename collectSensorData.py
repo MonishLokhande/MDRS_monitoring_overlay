@@ -41,14 +41,17 @@ def manual_data_read(pin):
         record_values(file_name)
         debounce_time = time.ticks_ms()
         print("saved manually collected data")
-
+        
+def button_interrupt_setup(pin):
+    pin.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
+    
 def data_collection_loop():
     
     print("Imports and pin setup successful")
 
     button_reading = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
-    button_reading.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
-    
+    button_interrupt_setup(button_reading)
+
     # global file_name
     try:
         while True:
