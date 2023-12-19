@@ -59,7 +59,10 @@ async def serve_client(reader, writer):
     while await reader.readline() != b"\r\n":
         pass
     if correct_password >= 0:
-        response = load_html('txtLog.html', [['txt_data', 'sensor_log.txt']])
+        response = load_html('txtLog.html', [['co2_data', 'CO2_log.csv'],
+                                            ['voc_data', 'VOC_log.csv'],
+                                            ['temp_data', 'Temp_log.csv'],
+                                            ['pm_data', 'PM2.5_log.csv']])
     else:
         response = response = load_html('passwordRequest.html')
 
