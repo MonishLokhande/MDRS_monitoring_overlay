@@ -1,0 +1,7 @@
+dash
+dash_daq
+plotly
+numpy
+pandas
+datetime
+pytz
