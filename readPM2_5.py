@@ -2,6 +2,12 @@ from machine import Pin as pin
 import machine
 import time
 
+def get_value():
+    PM = machine.ADC(pin(26))
+    PM_value = PM.read_u16()
+    dustDensity = 0.17 * PM_value - 0.1
+    return dustDensity
+
 def record_data(file_name = 'dust_data.csv'):
     PM = machine.ADC(pin(26))
     import time

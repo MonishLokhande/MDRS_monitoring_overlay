@@ -38,13 +38,13 @@ sensor_app.layout = html.Div(className='row', children=[
 )
 def dropdown_output(value):
     if value == 'Upper Deck':
-        df = pd.read_csv('sample_AQdata.csv')
+        df = pd.read_csv('plotlyDashGUI\sample_AQdata.csv')
     elif value == 'Lower Deck':
-        df = pd.read_csv('sample_AQdata_LowerHab.csv')
+        df = pd.read_csv('plotlyDashGUI\sample_AQdata_LowerHab.csv')
     elif value == 'Science Dome':
-        df = pd.read_csv('sample_AQdata.csv')
+        df = pd.read_csv('plotlyDashGUI\sample_AQdata.csv')
     elif value == 'Green Hab':
-        df = pd.read_csv('sample_AQdata.csv')
+        df = pd.read_csv('plotlyDashGUI\sample_AQdata.csv')
 
     # CO2 Plot
     figC = px.scatter(df, x='Time', y='Carbon dioxide [ppm]', title='Carbon Dioxide', color_continuous_scale='turbo', color='Carbon dioxide [ppm]', template='plotly_dark')
@@ -107,4 +107,6 @@ def dropdown_output(value):
 
 # Run the app
 if __name__ == '__main__':
+    with open('MDRS_AQsensors.html', 'w') as f:
+        f.write(sensor_app.to_html(full_html=True, include_plotlyjs='cdn'))
     sensor_app.run(debug=True)

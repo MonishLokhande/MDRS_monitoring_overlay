@@ -10,6 +10,20 @@ def setup_pins():
     VOC_outputA = pin(20, pin.IN)
     return VOC_power, VOC_outputA
 
+def get_value():
+    from time import sleep
+    VOC_value_list = [0] * 10
+    idx = 0
+
+    for y in range(11): # 10 values make 1 new reading, extra for averaging across many bad timings
+        if idx == 10:
+            idx = 0
+        VOC_value_list[idx] = input_pin.value()
+        pollutionClass = VOC_value_list.count(1)
+        idx += 1
+        sleep(0.01) # 10 ms
+    return pollutionClass
+
 def record_data(input_pin, file_name = 'VOC_data.csv'):
     # sensor output runs in 100ms  / 0.1 second cycle
     # high for 100ms means pollution class 10

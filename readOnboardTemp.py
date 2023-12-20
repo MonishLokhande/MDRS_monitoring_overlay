@@ -2,6 +2,13 @@ from machine import Pin as pin
 import machine
 import time
 
+def get_value():
+    adc = machine.ADC(4)
+    adc_voltage = adc.read_u16() * (3.3 / (65536))
+    temp_c = 27 - (adc_voltage - 0.706)/0.001721
+    temp_f = 32+(1.8*temp_c)
+    return temp_f
+
 def record_data(file_name = "temp_data.csv"):
 
     import time

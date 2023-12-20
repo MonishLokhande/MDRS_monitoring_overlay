@@ -58,8 +58,6 @@ def data_collection_loop():
 
     button_reading = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
     button_interrupt_setup(button_reading)
-    
-
 
     # global file_name
     global CO2_power_pin
@@ -69,7 +67,7 @@ def data_collection_loop():
         while True:
             record_values(file_names)
             
-            print("Vales recorded, now delaying for an hour...")
+            print("Values recorded, now delaying for an hour...")
             time.sleep(60*15) # read sensor data every 15 min
     except KeyboardInterrupt:
         CO2_power_pin.value(0)

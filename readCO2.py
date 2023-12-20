@@ -12,6 +12,17 @@ def setup_pins():
     
     return pwm_reading, CO2_power
 
+def get_value(sensor_pin):
+    from time import sleep
+    cycle_list = [0] * 1000
+    for check_idx in range(1000):
+        sleep(0.0009) # just less than every ms to account for timing offsets
+        cycle_list[check_idx] = sensor_pin.value()
+        # print('sensor_pin: ' + str(sensor_pin.value()))
+    CO2_reading = str(2000 * cycle_list.count(1)/1000)
+
+    return CO2_reading
+
 def record_data(sensor_pin, file_name = "CO2_data.csv"):
 
     import time
