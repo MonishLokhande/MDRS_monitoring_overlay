@@ -12,9 +12,9 @@ def setup_pins():
 
 def record_data(input_pin, file_name = 'VOC_data.csv'):
     # sensor output runs in 100ms  / 0.1 second cycle
-    # low for 100ms means pollution class 0
-    # low for 90 means pollution class 1
-    # low for 0 means pollution class 10
+    # high for 100ms means pollution class 10
+    # high for 90 means pollution class 9
+    # high for 0 means pollution class 0
     import time
     
     VOC_value_list = [0] * 10

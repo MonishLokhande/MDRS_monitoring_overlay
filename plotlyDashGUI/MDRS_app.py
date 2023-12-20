@@ -6,8 +6,8 @@ import numpy as np
 import datetime
 import pytz
 
-df = pd.read_csv('sample_AQdata.csv')
-df_door = pd.read_csv('door_status.csv')
+df = pd.read_csv('plotlyDashGUI\sample_AQdata.csv')
+df_door = pd.read_csv('plotlyDashGUI\door_status.csv')
 
 # Water Tank Plot
 df['waterColor'] = np.where(df['Water Tank Level [%]']<10, 'red', 'blue')
