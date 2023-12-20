@@ -70,7 +70,7 @@ def data_collection_loop():
             record_values(file_names)
             
             print("Vales recorded, now delaying for an hour...")
-            time.sleep(5) # read sensor data every hour
+            time.sleep(60*15) # read sensor data every 15 min
     except KeyboardInterrupt:
         CO2_power_pin.value(0)
         VOC_power_pin.value(0)
