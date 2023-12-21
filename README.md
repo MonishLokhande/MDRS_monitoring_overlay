@@ -56,7 +56,21 @@ accessory files
     mqtt_username
     mqtt_password
     mqtt_topics
-    
+
+#### Adafruit dashboard setup
+adafruit_sensor_logging.py calls the read"X".py functions to read various sensor values based off the schematics above.
+
+1) To use it copy all the requireed files onto the pico w then rename adafruit_sensor_logging.py to main.py.
+
+2)You'll need to configure securityInfo.py first
+  - Should contain network security info
+  - adafruit identification values, including a generated API key sintead of a normal password
+  - adafruit device ID
+  - adafruit topic IDs
+
+3) Run it once connected to a machine where you can see terminal output to ensure it's working.
+4) check adafruit dashboard to ensure auto logging and manual updates both work
+
 #### Local Sensor Log Setup
 
 CollectSensorData.py is a function that calls the read"X".py values in the repo above every hour and saves them into a timestamped txt file. It does not host any website or send that file anywhere. However, it can be used for sensor testing during code development and as a minimum way to log timestamped environmental data.
