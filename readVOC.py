@@ -10,7 +10,7 @@ def setup_pins():
     VOC_outputA = pin(20, pin.IN)
     return VOC_power, VOC_outputA
 
-def get_value():
+def get_value(input_pin):
     from time import sleep
     VOC_value_list = [0] * 10
     idx = 0
@@ -67,3 +67,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:    
         power_pin.value(0)
         print("Exited Successfully")
+
