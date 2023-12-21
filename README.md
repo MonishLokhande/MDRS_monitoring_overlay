@@ -14,7 +14,7 @@ Reading from 5 air quality sensors (with datasheets)
    - https://wiki.keyestudio.com/Ks0196_keyestudio_PM2.5_Shield
  - VOC
    - https://www.winsen-sensor.com/d/files/zp07-mp503-10-grade-manual-air-quality-detection-module-1_3-terminal-forward.pdf
- - Ozone
+ - Ozone (may not arrive in time for mission)
    - https://cdn.sparkfun.com/assets/9/9/6/e/4/mq131-datasheet-low.pdf
 
 One pi pico board connected to above 5 air quality sensors for each of the 5 MDRS buildings
@@ -47,25 +47,23 @@ Running Code (Instructions mainly from https://projects.raspberrypi.org/en/proje
     - main.py always runs on pico boot
 
 accessory files
-  - When you add your code to the pico make sure to also add
-      - securityInfo.py
-      - txtLog.html
-  - txtLog.html is the website that will be displayed on the server and is in the repo
-  - securityInfo.py is a 4 line file ignored by git you'll create yourself, it's what allows the pico to connect to the local wifi and provides security to the website we'll be hosting. The file should only contain the following three lines
+  - When you add your code to the pico make sure to also add securityInfo.py
+  - securityInfo.py is ignored by git so you need a local copy it contains...
 
-      ssid = "wifi name"
-    
-      wifi_password = "wifi password"
-
-      website_password = "website_password"
+    ssid = "wifi name"  
+    wifi_password = "wifi password"
+    website_password = "website_password"
+    mqtt_username
+    mqtt_password
+    mqtt_topics
     
 #### Local Sensor Log Setup
 
 CollectSensorData.py is a function that calls the read"X".py values in the repo above every hour and saves them into a timestamped txt file. It does not host any website or send that file anywhere. However, it can be used for sensor testing during code development and as a minimum way to log timestamped environmental data.
 
 A few notes
-- There isn't much memory on the pico boards, I'll need to do some testing to see how long this setup works before we run into memory issues
-- This doesn't use the pico's low power mode (yet) so power consumption will be higher
+- There isn't much memory on the pico boards, the board will run into a malloc error after running like this for enough hours
+- This doesn't use the pico's low power mode (yet) so power consumption will be relatively high
 
   
 Setup instructions
@@ -76,35 +74,10 @@ Setup instructions
     - readOnboardTemp
     - readPM2_5
     - readVOC
-4. To collect sensor data connect back to the pi via micro usb and download the sensor lof txt files onto your machine
-
-
-This file is also called by serverHost.py if a value in the code is set to true. This will allow the pi that is running our server to also log air quality values and display them on the monitoring website.
-
-#### Port Forwarding
-
-Port forwarding is what allows our pico based server to be accessed form devices outside its own network. Setting it up is a simple process with router settings.
-
-****Caution**** 
-
-This should be reviewed with MDRS staff before being implimented as it involves configuring router settings, rerouting traffic, and security.
-
-1. Backup router settings, not really necessary, but recommended in case the router needs to be reset for any reason.
-2. Get the router ip address and go to that address on any browser to access router settings.
-3. Layouts differ by manufacturer from here. Somewhere, likely somewhere advanced settings, there should be an option to enable port forwarding.
-4. Here just add your pico's ip address to the internal IP address and set the port number to 80
-     - The port 80 part may not be the only way to do this, it's just what I've used to test it
-
-This should allow people outside your LAN to access the server by connecting to the router's IP address, which then redirects them to the pico's IP address.
-
-****Note****
-This may be due to using that port number, or maybe it's intended, but when testing I cannot access router settings using the ip address used for the forwarding. (Because it immediately redirects to the pico website) In my setup I can use another ip to access the settings but this may not be possible on all networks and is why I'd recommend making a backup of the router settings, in case a reset is needed to disable the forwarding.
+4. To collect sensor data connect back to the pi via micro usb and download the csv files (should be one for each sensor)
 
 ## Website Features and GUI format
-At minimum, website shows log of sensor data that can then be downloaded remotely by mission support for backup storage
-  - Should also contain GUI to format overlay and make data easily readable
-  - Other web pages and general layout TODO
-    
-Server is passoword protected so that data is not publically available
-- Going to the link shows a password request page
-- The monitoring page is accessible only by using the website_password in securityInfo.py
+Sensor dashboard accessable at io.adafruit.com using MDRS credentials
+
+Dahsboard is customizable to allow for text and buttons to be added
+- TODO we could use these features to log off-nominal systems, research / EVA logs, and other crew logs that should be remotely accessible 
