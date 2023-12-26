@@ -15,9 +15,13 @@ def setup_pins():
 def read_analog():
     from machine import ADC
     from machine import Pin as pin
-    CO2 = ADC(pin(28, pin.IN))
-    CO2_value = CO2.read_u16()
-    return CO2_value
+    
+    adc_pin = ADC(pin(28, pin.IN))
+    adc_int = adc_pin.read_u16() # 0.4 - 2 V
+    adc_volt = adc_int * (2.0 / 65535.0) + 0.4
+    concentration = (adc_volt *  2000 / 1.6) - 0.4
+    
+    return concentration
     
 def get_value(sensor_pin):
     from time import sleep
