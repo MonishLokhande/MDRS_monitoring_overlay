@@ -9,9 +9,7 @@ except:
     raise ValueError("Error importing files\nMake sure everything being imported is copied onto the pi and named exactly the same as specified in this file")  
     
 
-    
-CO2_reading_pin, CO2_power = readCO2.setup_pins()
-VOC_power, VOC_reading_pin = readVOC.setup_pins()
+
 def file_names_setup(suffix = '_log.csv'):
     file_names = {'CO2': 'CO2'+suffix,
                   'VOC':'VOC'+suffix,
@@ -68,12 +66,19 @@ def data_collection_loop():
             record_values(file_names)
             
             print("Values recorded, now delaying for an hour...")
-            time.sleep(2) # read sensor data every 15 min
+            time.sleep(5) # read sensor data every 15 min
     except KeyboardInterrupt:
         CO2_power_pin.value(0)
         VOC_power_pin.value(0)
         print("Exited Successfully")
 
-if __name__ == "__main__":
+if __name__ == "__main__":    
     
+    CO2_reading_pin, CO2_power = readCO2.setup_pins()
+    VOC_power, VOC_reading_pin = readVOC.setup_pins()
+    print('CO2 power - Reading: {} - {}'.format(CO2_power, CO2_reading_pin))
+    
+    
+    # print('warming up...(for 20 seconds     )')
+    # time.sleep(20)
     data_collection_loop()
