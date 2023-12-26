@@ -23,7 +23,8 @@ def record_values(file_names):
     global VOC_reading_pin
     
     print("Recording CO2 values")
-    readCO2.record_data(CO2_reading_pin, file_names['CO2'])
+    # readCO2.record_data(CO2_reading_pin, file_names['CO2'])
+    print(readCO2.read_analog())
     
     print("Recording VOC values")
     readVOC.record_data(VOC_reading_pin, file_names['VOC'])
@@ -63,6 +64,7 @@ def data_collection_loop():
     
     try:
         while True:
+            print('##########')
             record_values(file_names)
             
             print("Values recorded, now delaying for an hour...")
