@@ -12,6 +12,8 @@ try:
 except ImportError as e:
     raise ValueError("Required files not found on local board: {}".format(e))
 
+LED_pin = machine.Pin(7, machine.Pin.OUT)
+
 def get_last_csv_item(csv):
     csvdata=[]
     with open(csv, 'r') as input_file:
@@ -20,21 +22,28 @@ def get_last_csv_item(csv):
     return csvdata[-1][-2]
 
 def send_sensor_data():
-    mqtt_client.publish(co2_topic, str(readCO2.get_value(co2_reading_pin)))
+    global LED_pin
+    LED_pin.value(1)
+    
+    mqtt_client.publish(co2_topic, str(readCO2.read_analog()))
     mqtt_client.publish(voc_topic, str(readVOC.get_value(VOC_outputA)))
     mqtt_client.publish(pm2_5_topic, str(readPM2_5.get_value()))
     mqtt_client.publish(temp_topic, str(readOnboardTemp.get_value()))
+    
+    LED_pin.value(0)
     
 debounce_time = 0
 
 def manual_data_read(pin):
     global debounce_time
+    global LED_pin
     if (time.ticks_ms() - debounce_time > 750):
         print('Sending data from manual interrupt...')
-        # TODO light up LED
+        LED_pin.value(1)
         send_sensor_data()
         debounce_time = time.ticks_ms()
         print("Manual interrupt data successfully sent")
+        LED_pin.value(0)
 
 def button_interrupt_setup(pin):
     pin.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
@@ -50,7 +59,8 @@ while (not wlan.isconnected()):
     time.sleep(1)
     time_limit -= 1
     if time_limit == 0:
-        raise ValueError("Could not connect to internet, ensure securityInfo properly updated")
+        print(wlan.status())
+        raise ValueError("Could not connect to internet, ensure securityInfo properly updated and that internet is available")
 print("Successfully connected to network")
 
 # COPIED TOP, from https://core-electronics.com.au/guides/getting-started-with-mqtt-on-raspberry-pi-pico-w-connect-to-the-internet-of-things/
@@ -61,7 +71,7 @@ mqtt_password = securityInfo.mqtt_password
 
 # Enter a random ID for this MQTT Client
 # It needs to be globally unique across all of Adafruit IO.
-mqtt_client_id = "1s9U%18U8$#*1hN#Qusny2K@^Kz!C" # I used a random password generator for this
+mqtt_client_id = securityInfo.mqtt_client_id # I used a random password generator for this
 
 # Initialize our MQTTClient and connect to the MQTT server
 mqtt_client = MQTTClient(
@@ -84,7 +94,7 @@ try:
     # water_level_topic
     
     
-    interrupt_button_pin = machine.Pin(6, machine.Pin.IN, machine.Pin.PULL_DOWN)
+    interrupt_button_pin = machine.Pin(4, machine.Pin.IN, machine.Pin.PULL_DOWN)
     button_interrupt_setup(interrupt_button_pin)
     
     while True:
@@ -94,19 +104,20 @@ try:
 
         # Publish the data to the topic!
         print('Auto Publishing data...')
-        # TODO light up LED
         send_sensor_data()        
         print('Auto Publish finished')
         
-        # Delay a bit to avoid hitting the rate limit, max rate is 20 per minute without premium
-        # time.sleep(10)
-        time.sleep(60*30) # delay for half an hour
+        # time.sleep(10) 
+        time.sleep(60) # minute
+        # TODO try except loop to confirm wifi connection
 except ImportError:
     raise ValueError("Failed to import collectSensorData, make sure it is copied onto board")
 except KeyboardInterrupt:
     print("Successfully exited via keyboard")
+    LED_pin.value(0)
 finally:
     mqtt_client.disconnect()
 
 
 # COPIED BOTTOM
+
