@@ -7,7 +7,7 @@ This repo contains schematics and software
 ### What is done
 Code available on this github allows for updating an adafruit dashboard from a raspberry pi pico w controller using the umqtt.simple mqtt library.
 
-Two air quality monitoring modules have been constructed at the MDRS station.
+Two air quality monitoring modules have been constructed and tested at the MDRS station.
 
 ### Needs to be done
 Mqtt experiences errors often and I'm not sure why, this would need to be fixed before expanding production.
