@@ -2,7 +2,6 @@ import machine
 import time
 import network
 from umqtt.simple import MQTTClient
-import logging
 
 try:
     import readCO2
@@ -15,26 +14,17 @@ except ImportError as e:
 
 LED_pin = machine.Pin(7, machine.Pin.OUT)
 
-def send_sensor_data(pin):
-    voc_topic = securityInfo.voc_topic
-    pm2_5_topic = securityInfo.pm2_5_topic
-    temp_topic = securityInfo.temp_topic
+def send_sensor_data():
+    global inner_airlock_pin
+    global outer_airlock_pin
     
     try:
         print('Sending data...')
-        mqtt_client.publish(securityInfo.co2_topic, '902')
-        # mqtt_client.publish(co2_topic, str(readCO2.read_analog()))
-        # mqtt_client.publish(voc_topic, str(readVOC.get_value(VOC_outputA)))
-        # mqtt_client.publish(pm2_5_topic, str(readPM2_5.get_value()))
-        # mqtt_client.publish(temp_topic, str(readOnboardTemp.get_value()))
+        # TODO inner airlock, use above pins.value()
+        # TODO outer airlock
         print('Data sent')
-    except Exception as e:
-        print(e)
-        
-        timeList = time.localtime()
-        timestamp = str(timeList[0]) +'_'+ str(timeList[1]) +'_'+ str(timeList[2]) +'_'+ str(timeList[3]) +':'+ str(timeList[4]) + ':'+str(timeList[5])
-        logging.error(timestamp +': '+ str(e))
-        # machine.WDT(timeout=10)
+    except:
+        machine.WDT(timeout=10)
     
 debounce_time = 0
 
@@ -45,8 +35,6 @@ def manual_data_read(pin):
         send_sensor_data()
         debounce_time = time.ticks_ms()
 
-def button_interrupt_setup(pin):
-    pin.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
 # TODO format into if __main__ blocks
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
@@ -74,7 +62,8 @@ mqtt_password = securityInfo.mqtt_password
 
 # Enter a random ID for this MQTT Client
 # It needs to be globally unique across all of Adafruit IO.
-mqtt_client_id = securityInfo.mqtt_client_id
+mqtt_client_id = machine.RNG() # TODO verify that it randomly creates good IDs
+
 # Initialize our MQTTClient and connect to the MQTT server
 mqtt_client = MQTTClient(
         client_id=mqtt_client_id,
@@ -91,24 +80,33 @@ def flash_LED(pin):
     global LED_pin
     
     LED_pin.value(1)
-    time.sleep(0.1)
+    time.sleep(0.05)
     LED_pin.value(0)
 
 
 try:
-    logging.basicConfig(filename='adafruit_sensor.log', level=logging.INFO)
+    co2_topic = securityInfo.co2_topic
+    voc_topic = securityInfo.voc_topic
+    pm2_5_topic = securityInfo.pm2_5_topic
+    temp_topic = securityInfo.temp_topic
+    # ozone_topic
+    # inner_door_topic
+    # outer_door_topic
+    # water_level_topic
     
-    # interrupt_button_pin = machine.Pin(4, machine.Pin.IN, machine.Pin.PULL_DOWN)
-    # button_interrupt_setup(interrupt_button_pin)
     
+    inner_airlock_pin = machine.Pin(15, machine.Pin.IN, machine.Pin.PULL_DOWN)
+    outer_airlock_pin = machine.Pin(16, machine.Pin.IN, machine.Pin.PULL_DOWN)
+    
+    inner_airlock_pin.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
+    outer_airlock_pin.irq(trigger=machine.Pin.IRQ_RISING, handler=manual_data_read)
     
     co2_reading_pin, CO2_power = readCO2.setup_pins()
     VOC_power, VOC_outputA  = readVOC.setup_pins()
     
     led_timer = machine.Timer(period=5000, mode=machine.Timer.PERIODIC, callback=flash_LED)
-    record_timer = machine.Timer(period=5000, mode=machine.Timer.PERIODIC, callback=send_sensor_data)
-    # TODO change period on record_timer to desired delay
-    
+    record_timer = machine.Timer(period=1800*1000, mode=machine.Timer.PERIODIC, callback=send_sensor_data())    
+        
     print('idling...')
     machine.idle()
         
@@ -116,4 +114,3 @@ except ImportError:
     raise ValueError("Failed to import collectSensorData, make sure it is copied onto board")
 finally:
     mqtt_client.disconnect()
-

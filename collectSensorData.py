@@ -1,5 +1,6 @@
 import machine
 import time
+# import picosleep
 try:
     import readCO2
     import readOnboardTemp
@@ -17,10 +18,13 @@ def file_names_setup(suffix = '_log.csv'):
                   'PM2.5':'PM2.5'+suffix}
     return file_names
 
-def record_values(file_names):
+def record_values(pin = 0):
     
     global CO2_reading_pin
     global VOC_reading_pin
+    
+    
+    file_names = file_names_setup()
     
     print("Recording CO2 values")
     # readCO2.record_data(CO2_reading_pin, file_names['CO2'])
@@ -37,17 +41,19 @@ def record_values(file_names):
     
 debounce_time = 0
 
-file_names = file_names_setup()
 LED_pin = machine.Pin(7, machine.Pin.OUT)
 
 def manual_data_read(pin):
     global debounce_time
     global LED_pin
     if (time.ticks_ms() - debounce_time > 750):
+        
         LED_pin.value(1)
+        
         global file_names
+        
         print('Reading Data from manual interrupt...')
-        record_values(file_names)
+        record_values()
         debounce_time = time.ticks_ms()
         print("saved manually collected data")
         LED_pin.value(0)
@@ -78,19 +84,28 @@ def data_collection_loop():
             print("Values recorded, now delaying...")
             LED_pin.value(0)
             time.sleep(5) # read sensor data every 15 min
+            # picosleep.seconds(5)
     except KeyboardInterrupt:
         CO2_power_pin.value(0)
         VOC_power_pin.value(0)
         LED_pin.value(0)
         print("Exited Successfully")
 
+def flash_LED(pin):
+    global LED_pin
+
+    LED_pin.value(1)
+    time.sleep(0.5)
+    LED_pin.value(0)
+
 if __name__ == "__main__":    
     
     CO2_reading_pin, CO2_power = readCO2.setup_pins()
     VOC_power, VOC_reading_pin = readVOC.setup_pins()
-    print('CO2 power - Reading: {} - {}'.format(CO2_power, CO2_reading_pin))
+    # print('CO2 power - Reading: {} - {}'.format(CO2_power, CO2_reading_pin))
     
+    led_timer = machine.Timer(period=5000, mode=machine.Timer.PERIODIC, callback=flash_LED)
+    record_timer = machine.Timer(period=5000, mode=machine.Timer.PERIODIC, callback=record_values)    
     
-    # print('warming up...(for 20 seconds     )')
-    # time.sleep(20)
-    data_collection_loop()
+    print('idling...')
+    machine.idle()
