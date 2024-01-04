@@ -1,5 +1,5 @@
 # MDRS_monitoring_overlay
-Purdue MDRS crew 288 and 289 raspberry pi hosted remote station monitoring system. This project is intended to use 10 rasperry pi pico w controllers spread throughout the MDRS campus to send information to an adafruit dashboard to display air quality data, airlock status, EVA suit charge status, and potentially crew logs and reports.
+Purdue MDRS raspberry pi hosted remote station monitoring system. This project is intended to use 10 rasperry pi pico w controllers spread throughout the MDRS campus to send information to an adafruit dashboard to display air quality data and airlock status, potentially with EVA suit charge status, crew logs, and reports also included.
 
 This repo contains schematics and software
   - While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo
@@ -10,7 +10,9 @@ Code available on this github allows for updating an adafruit dashboard from a r
 Two air quality monitoring modules have been constructed and tested at the MDRS station.
 
 ### Needs to be done
-Mqtt experiences errors often and I'm not sure why, this would need to be fixed before expanding production.
+Mqtt now returns an error when connecting to dashboard after several days of successful testing and I'm not sure why, this must be fixed before expanding sensor network.
+
+Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection.
 
 No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
 
@@ -18,7 +20,7 @@ Other features that could be implimented include water tank monitoring, EVA suit
 
 ## Air quality sensors
 Reading from 5 air quality sensors (with datasheets)
- - temp / humidity (combined in one sensor) (currently not utilized in code due to problems with I2C connection, temporarily replaceed with onboard temperature sensor)
+ - temp / humidity (combined in one sensor) (currently not utilized in software due to problems with I2C connection, temporarily replaced with onboard temperature sensor)
    - http://aosong.com/userfiles/files/media/Data%20Sheet%20AHT21.pdfhttp://aosong.com/userfiles/files/media/Data%20Sheet%20AHT21.pdf 
  - CO2
    - https://cdn-reichelt.de/documents/datenblatt/C150/MH-Z19C-PC_DATENBLATT.pdf
