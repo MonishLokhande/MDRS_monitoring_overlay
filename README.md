@@ -4,6 +4,18 @@ Purdue MDRS crew 288 and 289 raspberry pi hosted remote station monitoring syste
 This repo contains schematics and software
   - While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo
 
+### What is done
+Code available on this github allows for updating an adafruit dashboard from a raspberry pi pico w controller using the umqtt.simple mqtt library.
+
+Two air quality monitoring modules have been constructed at the MDRS station.
+
+### Needs to be done
+Mqtt experiences errors often and I'm not sure why, this would need to be fixed before expanding production.
+
+No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
+
+Other features that could be implimented include water tank monitoring, EVA suit status, and adding crew logs / research updates into the dashboard. (TODO on whether or not the materials on the station can do this, or if more are needed)
+
 ## Air quality sensors
 Reading from 5 air quality sensors (with datasheets)
  - temp / humidity (combined in one sensor) (currently not utilized in code due to problems with I2C connection, temporarily replaceed with onboard temperature sensor)
