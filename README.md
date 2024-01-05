@@ -10,11 +10,15 @@ Code available on this github allows for updating an adafruit dashboard from a r
 Two air quality monitoring modules have been constructed and tested at the MDRS station.
 
 ### Needs to be done
-Mqtt now returns an error when connecting to dashboard after several days of successful testing and I'm not sure why, this must be fixed before expanding sensor network.
+Mqtt library (umqtt.simple) now returns an error ([Errno 9] EBADF) when connecting to dashboard after several days of successful testing for unknown reasons, this must be fixed before further expanding sensor network.
 
 Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection.
 
 No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
+
+AA Batteries have been used to power pico w boards for sensor testing, and many are present at the station, but it requires a pack of several to be used for an effective amount of time. We instead recommend looking at micro usb cable to permanant wall fixture where possible, and rechargable battery packs when it's not.
+
+The two prototype air sensors do not have permanant casing solutions, one is mounted to a cardboard testing mount and the other has no mounting. A permanent and robust system is needed instead. The entire pi board and sensor system take up abot 1 square foot when laid out comfortably, the airlock system only requires the board and reed switches so it takes up much less room.
 
 Other features that could be implimented include water tank monitoring, EVA suit status, and adding crew logs / research updates into the dashboard. (TODO on whether or not the materials on the station can do this, or if more are needed)
 
