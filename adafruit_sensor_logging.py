@@ -23,10 +23,10 @@ def send_sensor_data(pin):
     try:
         print('Sending data...')
         mqtt_client.publish(securityInfo.co2_topic, '902')
-        # mqtt_client.publish(co2_topic, str(readCO2.read_analog()))
-        # mqtt_client.publish(voc_topic, str(readVOC.get_value(VOC_outputA)))
-        # mqtt_client.publish(pm2_5_topic, str(readPM2_5.get_value()))
-        # mqtt_client.publish(temp_topic, str(readOnboardTemp.get_value()))
+        mqtt_client.publish(co2_topic, str(readCO2.read_analog()))
+        mqtt_client.publish(voc_topic, str(readVOC.get_value(VOC_outputA)))
+        mqtt_client.publish(pm2_5_topic, str(readPM2_5.get_value()))
+        mqtt_client.publish(temp_topic, str(readOnboardTemp.get_value()))
         print('Data sent')
     except Exception as e:
         print(e)
