@@ -122,3 +122,25 @@ Setup instructions
 Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials
 
 Dahsboard is customizable to allow for text and buttons to be added (This cold be used to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible)
+
+Here's a screenshot of our adafruit "dashboard"
+<img src="adafruit_dash_screenshot.jpg">
+
+This is the main screen that displays the data collected from our sensors in a readable format. Right now as you can see there's only one chart there for testing, but using the settings dropdown on the right allows for formatting changes as wel as adding more data to the display once it's available.
+
+<>
+
+This is from the other main page you'll be using on adafruit.
+
+
+When you send data to the adafruit website you need to specify a topic in the code. (this is done in securityInfo in this case) This topic correlates to a feed, or stream of data on adafruit. 
+
+Above you can see we have a seperate feed for co2, pm2.5, temp, and voc data. All of these sesnors are connected to one controlling board, but the data needs to be sent in seperate feeds so we know what everything corresponds to.
+
+These can be manually organized into groups with custom names, as you can see we've named this Lower Hab monitoring. It's not necessary fpr functionality, but highly recommended to keep each data stream labelled and grouped.
+
+<>
+
+Lastly, this is a screenshot of our co2 feed. Looking at any other sensor feed would look basically the same.
+
+The main important thing here is that once you navigate here on the website you can download the data history as a csv using the download button.
