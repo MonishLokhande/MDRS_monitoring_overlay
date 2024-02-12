@@ -1,26 +1,28 @@
 # MDRS_monitoring_overlay
-Purdue MDRS raspberry pi hosted remote station monitoring system. This project is intended to use 10 rasperry pi pico w controllers spread throughout the MDRS campus to send information to an adafruit dashboard to display air quality data and airlock status, potentially with EVA suit charge status, crew logs, and reports also included.
+Purdue MDRS raspberry pi hosted remote station monitoring system. This project is intended to use 10 rasperry pi pico w controllers spread throughout the MDRS campus to send information to an adafruit dashboard to display air quality data and airlock status, potentially being expanded to include EVA suit charge status, crew logs, and reports.
 
 This repo contains schematics and software
-  - While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo
 
-### What is done
-Code available on this github allows for updating an adafruit dashboard from a raspberry pi pico w controller using the umqtt.simple mqtt library.
 
-Two air quality monitoring modules have been constructed and tested at the MDRS station.
+**While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo**
 
-### Needs to be done
-Mqtt library (umqtt.simple) now returns an error ([Errno 9] EBADF) when connecting to dashboard after several days of successful testing for unknown reasons, this must be fixed before further expanding sensor network.
+### Work so far
+- Code available on this github allows for updating an adafruit dashboard from a raspberry pi pico w controller using the umqtt.simple mqtt library.
 
-Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection.
+- Two air quality prototype modules have been constructed and tested at the MDRS station. At time of writing, they are being stored with MDRS staff at the Rock Shop near campus.
 
-No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
+### TODO
+- Mqtt library (umqtt.simple) returned an error during testing at MDRS station ([Errno 9] EBADF) when connecting to dashboard after several days of successful testing for unknown reasons, this must be fixed before further expanding sensor network.
 
-AA Batteries have been used to power pico w boards for sensor testing, and many are present at the station, but it requires a pack of several to be used for an effective amount of time. We instead recommend looking at micro usb cable to permanant wall fixture where possible, and rechargable battery packs when it's not.
+- Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection. (Right now the code uses the onboard temperature sensor, but this measures CPU temp, not ambient room temp.
 
-The two prototype air sensors do not have permanant casing solutions, one is mounted to a cardboard testing mount and the other has no mounting. A permanent and robust system is needed instead. The entire pi board and sensor system take up abot 1 square foot when laid out comfortably, the airlock system only requires the board and reed switches so it takes up much less room.
+- No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
 
-Other features that could be implimented include water tank monitoring, EVA suit status, and adding crew logs / research updates into the dashboard. (TODO on whether or not the materials on the station can do this, or if more are needed)
+- AA Batteries have been used to power pico w boards for sensor testing, and many are present at the station with our other reseaerch equipment, but it requires a pack of several to be used for an effective amount of time. After spending much time working with these battery packs, I'd recommend powering with micro usb cable to permanant wall fixture where possible, and rechargable battery packs when it's not.
+
+- The two prototype air sensors do not have permanant casing solutions, one is mounted to a cardboard testing mount and the other has no mounting. A permanent and robust system is needed instead. The entire pi board and sensor system take up abot 1 square foot when laid out comfortably, the airlock system only requires the board and reed switches so it takes up much less room.
+
+- Other features that could be implimented include water tank monitoring, EVA suit status, and adding crew logs / research updates into the dashboard. (TODO on whether or not the materials on the station can do this, or if more are needed)
 
 ## Air quality sensors
 Reading from 5 air quality sensors (with datasheets)
@@ -46,12 +48,15 @@ Reading from 5 air quality sensors (with datasheets)
  - Greenhab
    
 5 controllers measuring airlock status using reed switches and magnets
- - One pi in each of the airlocks / doors on campus to measure these
+ - One pi in each of the airlocks / doors on campus
 
 Measuring EVA suit charge status using GPIO voltage detection
- - Not yet implimented, but suit status currently manually measured with a multimeter, so another board could be used to monitor suit status using an ADC
+ - Not yet implimented, but suit charge is currently checked with with a multimeter before every EVA, so another pi pico w (or any other board that supports mqtt protocols and has an ADC)
 
 ## Setup Instructions
+
+*Nothing fancy here, if you're already familiar*
+
 Install Thonny [https://thonny.org]
  - Connects and flashes code to the raspberry pi boards very easily
 
@@ -89,7 +94,7 @@ SecurityInfo
 ## Adafruit dashboard setup
 adafruit_sensor_logging.py calls the read"X".py functions to read various sensor values based off the schematics above.
 
-1) To use it copy all the required files onto the pico w then rename adafruit_sensor_logging.py to main.py.
+1) To use it copy all the read"X".py files onto the pico w then rename adafruit_sensor_logging.py to main.py.
 
 2) Configure securityInfo.py
 
@@ -100,21 +105,20 @@ adafruit_sensor_logging.py calls the read"X".py functions to read various sensor
 
 #### Local Sensor Log Setup
 
-CollectSensorData.py is a function that calls the read"X".py values in the repo above every hour and saves them into a timestamped csv file.
+CollectSensorData.py is a function that calls the read"X".py values in the repo above every hour and saves them into a timestamped csv file. This isn't needed for normal operation, but is instead available for debugging if needed.
 
   
 Setup instructions
-1. Save the file onto the pico board
+1. Save CollectSensorData.py onto the pico board
 2. Rename it to main.py so that it runs on startup.
 3. Copy the read"X".py files from the github, currently makes calls to following
-    - readCO2
-    - readOnboardTemp
-    - readPM2_5
-    - readVOC
+    - readCO2.py
+    - readOnboardTemp.py
+    - readPM2_5.py
+    - readVOC.py
 4. To collect sensor data connect back to the pi via micro usb and download the csv files (should be a seperate file for each sensor)
 
-## Website Features and GUI format
+## Online Dashboard
 Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials
 
-Dahsboard is customizable to allow for text and buttons to be added
-- TODO we could use these features to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible 
+Dahsboard is customizable to allow for text and buttons to be added (This cold be used to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible)
