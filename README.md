@@ -1,8 +1,29 @@
 # MDRS_monitoring_overlay
 Purdue MDRS raspberry pi hosted remote station monitoring system. This project is intended to use 10 rasperry pi pico w controllers spread throughout the MDRS campus to send information to an adafruit dashboard to display air quality data and airlock status, potentially being expanded to include EVA suit charge status, crew logs, and reports.
 
-This repo contains schematics and software
+This repo contains both schematics and software.
 
+
+This flowchart shows how the adafruit website organizes incoming data and displays it on the dashboard, for a few of the deployed sensors.
+
+
+```mermaid
+flowchart TD;
+    A[Sensor pack 1]-->E[Lower Hab Adafruit co2 Data Feed];
+    A[Sensor pack 1]-->F[Lower Hab Adafruit voc Data Feed];
+    A[Sensor pack 1]-->G[Lower Hab Adafruit temp Data Feed];
+    
+    B[Sensor pack 2]-->H[Upper Hab Adafruit co2 Data Feed];
+    B[Sensor pack 2]-->I[Upper Hab Adafruit voc Data Feed];
+    B[Sensor pack 2]-->J[Upper Hab Adafruit temp Data Feed];
+
+E --> N[Adafruit Dashboard];
+F--> N[Adafruit Dashboard];
+G--> N;
+H--> N;
+I--> N;
+J--> N;
+```
 
 **While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo**
 
