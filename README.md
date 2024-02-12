@@ -128,7 +128,7 @@ Here's a screenshot of our adafruit "dashboard"
 
 This is the main screen that displays the data collected from our sensors in a readable format. Right now as you can see there's only one chart there for testing, but using the settings dropdown on the right allows for formatting changes as wel as adding more data to the display once it's available.
 
-<>
+<img src="adafruit_feed_group_screenshot.jpg">
 
 This is from the other main page you'll be using on adafruit.
 
@@ -139,7 +139,7 @@ Above you can see we have a seperate feed for co2, pm2.5, temp, and voc data. Al
 
 These can be manually organized into groups with custom names, as you can see we've named this Lower Hab monitoring. It's not necessary fpr functionality, but highly recommended to keep each data stream labelled and grouped.
 
-<>
+<img src="adafruit_co2_feed_screenshot.jpg">
 
 Lastly, this is a screenshot of our co2 feed. Looking at any other sensor feed would look basically the same.
 
