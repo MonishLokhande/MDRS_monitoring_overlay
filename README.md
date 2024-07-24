@@ -142,7 +142,7 @@ Setup instructions
 ## Online Dashboard
 Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials
 
-Dahsboard is customizable to allow for text and buttons to be added (This cold be used to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible)
+Dashboard is customizable to allow for text and buttons to be added (This cold be used to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible)
 
 Here's a screenshot of our adafruit "dashboard"
 <img src="adafruit_dash_screenshot.jpg">
