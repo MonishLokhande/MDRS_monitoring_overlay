@@ -27,12 +27,20 @@ J--> N;
 
 **While MDRS crews are on site sim should be maintained by respecting the ~22 minute lag time between mission control updates and pulling anything from the repo**
 
-### Work so far
+## Work so far
 - Code available on this github allows for updating an adafruit dashboard from a raspberry pi pico w controller using the umqtt.simple mqtt library.
 
 - Two air quality prototype modules have been constructed and tested at the MDRS station. At time of writing, they are being stored with MDRS staff at the Rock Shop near campus.
 
-### TODO
+
+## Important Repo Files
+ - adafruit_sensor_logging.py is what you'll be flashing onto the pico boards under then name "main.py." That is where we coordinate reading sensor data and sending it to the adafruit dashboard.
+     - Note, this should be sending sensor data routinely, though in the schematics a button for manually logging data is included. The code to support this is currently commented out for other testing.
+ - collectSensorData.py is similar to what's above, but stores the data locally to the pico board, rather than updating to the online dashboard. Made for testing sensor values without internet access.
+ - adafruit_airlock_logging.py is an incomplete framework to flash to the pico boards that are monitoring airlock status around the MDRS facility. Should function exactly the same as adafruit_sensor_logging, but reed switches to monitor door status.
+ - The sensorReading file contains several python files that set up and read data from the sensors for the proejct. Called by other programs above to streamline readability.
+
+## TODO
 - Mqtt library (umqtt.simple) returned an error during testing at MDRS station ([Errno 9] EBADF) when connecting to dashboard after several days of successful testing for unknown reasons, this must be fixed before further expanding sensor network.
 
 - Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection. (Right now the code uses the onboard temperature sensor, but this measures CPU temp, not ambient room temp.
@@ -138,6 +146,7 @@ Setup instructions
     - readPM2_5.py
     - readVOC.py
 4. To collect sensor data connect back to the pi via micro usb and download the csv files (should be a seperate file for each sensor)
+
 
 ## Online Dashboard
 Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials
