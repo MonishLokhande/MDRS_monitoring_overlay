@@ -1,3 +1,7 @@
+# [Errno 9] EBADF: potential fixes from github issues:
+#     make sure board firmware is updated and we're using latest libraries for everything
+#     move mqtt.connect() to inside send_sensor_data function, machine.idle() may be disconnecting and thus causing error
+
 import machine
 import time
 import network
