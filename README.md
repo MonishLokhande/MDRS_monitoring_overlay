@@ -41,10 +41,6 @@ J--> N;
  - The sensorReading file contains several python files that set up and read data from the sensors for the proejct. Called by other programs above to streamline readability.
 
 ## TODO
-- Mqtt library (umqtt.simple) returned an error during testing at MDRS station ([Errno 9] EBADF) when connecting to dashboard after several days of successful testing for unknown reasons, this must be fixed before further expanding sensor network.
-
-- Temperature / humidity sensors could not be detected with I2C during initial testing, this must be fixed to allow for accurate data collection. (Right now the code uses the onboard temperature sensor, but this measures CPU temp, not ambient room temp.
-
 - No airlock sensors have been constructed at MDRS, though the requisite parts should be present at the station. (reed switches and magnets) The code for these should function nearly identically to the air quality code however, and there is a nearly complete example in this repo.
 
 - AA Batteries have been used to power pico w boards for sensor testing, and many are present at the station with our other reseaerch equipment, but it requires a pack of several to be used for an effective amount of time. After spending much time working with these battery packs, I'd recommend powering with micro usb cable to permanant wall fixture where possible, and rechargable battery packs when it's not.
@@ -123,14 +119,14 @@ SecurityInfo
 ## Adafruit dashboard setup
 adafruit_sensor_logging.py calls the read"X".py functions to read various sensor values based off the schematics above.
 
-1) To use it copy all the read"X".py files onto the pico w then rename adafruit_sensor_logging.py to main.py.
+1) To use it copy all the read"X".py files onto the pico w then copt the main.py from dataPublishing folder.
 
-2) Configure securityInfo.py
+2) Configure securityInfo.py (you can use the securityInfo_sample.py to get data)
 
 3) Run it once connected to a machine where you can see terminal output to ensure it's working.
-4) check adafruit dashboard to ensure auto logging and manual updates both work
-5) When running code on the board the connected LED should stay on while connecting to internet, then flash every 5 seconds once setup is successful
-  - If the LED flashed 10 times rapidly after attempting connection then there was an error when connecting, reboot and try again and / or use the terminal to see the error codes and debug
+4) check adafruit dashboard to ensure auto logging and manual updates both work. (The feeds are created automatically, although you might need to create the dashboard to get data)
+5) For Dashboard, stream based dashboard for good sensor channel and bad sensor channel are used.
+6) When running code on the board the Raspberry pi Pico LEDs should blink on while connecting to internet, then flash every 5 seconds once setup is successful
 
 #### Local Sensor Log Setup
 
@@ -142,23 +138,24 @@ Setup instructions
 2. Rename it to main.py so that it runs on startup.
 3. Copy the read"X".py files from the github, currently makes calls to following
     - readCO2.py
-    - readOnboardTemp.py
-    - readPM2_5.py
-    - readVOC.py
+    - readTempHumid.py
 4. To collect sensor data connect back to the pi via micro usb and download the csv files (should be a seperate file for each sensor)
 
 
 ## Online Dashboard
-Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials
+Sensor dashboard accessable at io.adafruit.com using Purdue MDRS credentials 
 
 Dashboard is customizable to allow for text and buttons to be added (This cold be used to log off-nominal systems, research / EVA logs, and other crew logs that are be remotely accessible)
 
-Here's a screenshot of our adafruit "dashboard"
-<img src="adafruit_dash_screenshot.jpg">
+Here's a screenshot of our adafruit "local dashboard"
+<img src="local_dashboard.png">
+
+Here's a screenshot of our adafruit "global dashboard"
+<img src="global_dashboard.png">
 
 This is the main screen that displays the data collected from our sensors in a readable format. Right now as you can see there's only one chart there for testing, but using the settings dropdown on the right allows for formatting changes as wel as adding more data to the display once it's available.
 
-<img src="adafruit_feed_group_screenshot.jpg">
+<img src="feeds.png">
 
 This is from the other main page you'll be using on adafruit.
 

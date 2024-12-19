@@ -5,7 +5,8 @@ import time
 def get_value():
     PM = machine.ADC(pin(26))
     PM_value = PM.read_u16()
-    # dustDensity = 0.17 * PM_value - 0.1
+    dustDensity = 0.17 * PM_value - 0.1
+    print(dustDensity)
     return PM_value
 
 def record_data(file_name = 'dust_data.csv'):
@@ -34,7 +35,6 @@ if __name__ == "__main__":
     LED.value(0)
     try:
         while True:
-            
             LED.value(0)
             time.sleep(1)
             LED.value(1)

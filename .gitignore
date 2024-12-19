@@ -3,3 +3,6 @@ sensor_data.txt
 securityInfo.py
 *legacy*
 *deepsleep*
+/umqtt
+/*/test*
+*/__pycache__/*
